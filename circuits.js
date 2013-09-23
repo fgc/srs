@@ -87,6 +87,19 @@ function Text(id, input) {
     });
 }
 
+function Button(name, context) {
+    var output = new Signal();
+    var clicks = 0;
+    var button = document.createElement("input");
+    button.type = "button";
+    button.value = name;
+    button.onclick = function() {
+        output.set_value(clicks++);
+        };
+    context.appendChild(button);
+    return output;
+}
+
 
 function Mouse() {
     var output = new Signal();
@@ -111,4 +124,26 @@ function lift(proc, input) {
         output.set_value(proc(input.get_value()));
     });
     return output;
+}
+
+function lift2(proc, input_a, input_b) {
+    var output = new Signal();
+    var action = function () {
+        output.set_value(proc(input_a.get_value(), input_b.get_value()));
+    }
+    input_a.add_action(action);
+    input_b.add_action(action);
+    return output;
+}
+
+function andgate(input_a, input_b) {
+    return lift2(function (a, b){return a & b;}, input_a, input_b);
+}
+
+function toggle_on(input) {
+    var flag = false;
+    return lift(function (val) { 
+        flag = !flag;
+        return flag;
+    }, input);
 }
