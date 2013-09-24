@@ -1,5 +1,5 @@
 function Signal() {
-    this.value = 0;
+    this.value = undefined;
     this.action_procedures = new Array();
 }
 
@@ -22,6 +22,7 @@ Signal.prototype.add_action = function (proc) {
 };
 
 var agenda = PriorityQueue({low: true});
+agenda.propagating = false;
 
 function after_delay(proc, delay) {
     if (agenda.empty) {
@@ -30,13 +31,18 @@ function after_delay(proc, delay) {
         var current_time = agenda.top().time;
         agenda.push({proc: proc, time: current_time + delay}, current_time + delay);
     }
+    if (!agenda.propagating) {
+        propagate();
+    }
 }
 
 function propagate() {
+    agenda.propagating = true;
     while (!agenda.empty()) {
         var proc = agenda.pop().proc;
         proc();
     }
+    agenda.propagating = false;
 }
 
 function AndGate(input_a, input_b, output) {
@@ -88,6 +94,7 @@ function Text(id, input) {
 }
 
 function Button(name, context) {
+    var context = context || document.body;
     var output = new Signal();
     var clicks = 0;
     var button = document.createElement("input");
@@ -97,6 +104,29 @@ function Button(name, context) {
         output.set_value(clicks++);
         };
     context.appendChild(button);
+    return output;
+}
+
+function checkbox(name, input) {
+    var output = new Signal();
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = name;
+    checkbox.name = name;
+    checkbox.checked = false;
+    output.set_value(checkbox.checked);
+    checkbox.onchange = function() {
+        output.set_value(checkbox.checked);
+        return false;
+    }
+    if (input != undefined) {
+        input.add_action(function() {
+            var new_value = input.get_value();
+            checkbox.checked = new_value;
+            output.set_value(new_value);
+        });
+    }
+    document.body.appendChild(checkbox);
     return output;
 }
 
@@ -118,6 +148,13 @@ function Stringify(input) {
     return output;
 }
 
+
+function constant(value) {
+    var output = new Signal();
+    output.set_value(value);
+    return output;
+}
+
 function lift(proc, input) {
     var output = new Signal();
     input.add_action(function() {
@@ -125,6 +162,18 @@ function lift(proc, input) {
     });
     return output;
 }
+
+function dlift(proc, input) {
+    var output = new Signal();
+    console.log(input);
+    input.add_action(function() {
+        after_delay( function() {
+            output.set_value(proc(input.get_value()));
+        },1);
+    });
+    return output;
+}
+
 
 function lift2(proc, input_a, input_b) {
     var output = new Signal();
@@ -136,9 +185,27 @@ function lift2(proc, input_a, input_b) {
     return output;
 }
 
+
+function dlift2(proc, input_a, input_b, output) {
+    var output = output || new Signal();
+    var action = function() {
+        after_delay( function() {
+            output.set_value(proc(input_a.get_value(), input_b.get_value()));
+        },1);
+    };
+
+    input_a.add_action(action);
+    input_b.add_action(action);
+
+    return output;
+}
+
+
+
 function andgate(input_a, input_b) {
     return lift2(function (a, b){return a & b;}, input_a, input_b);
 }
+
 
 function toggle_on(input) {
     var flag = false;

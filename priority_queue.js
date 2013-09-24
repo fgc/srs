@@ -125,7 +125,11 @@
       push: function(object, priority) {
         contents.unshift({object: object, priority: priority});
         sorted = false;
-      }
+      },
+
+        dump: function() {
+            console.log(contents);
+        }
     };
 
     return self;
