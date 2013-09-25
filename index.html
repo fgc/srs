@@ -2,10 +2,20 @@
 <html>
   <head>
     <script src="priority_queue.js"></script>
-    <script src="circuits.js"></script>
-    <script src="flipflop.js"></script>
+    <script src="srs_core.js"></script>
+    <script>
+      var a = new SRS.Signal();
+      var running_sum = SRS.fold(function(n, acc) { return acc + n;}, 0, a);
+      var filtered = SRS.filter(function(n) { return n%2 == 0;}, a);
+      SRS.lift(function(i){console.log("running sum: " + i);},running_sum);
+      SRS.lift(function(i){console.log("filtered: " + i);},filtered);
+      a.set_value(1);
+      a.set_value(2);
+      a.set_value(3);
+      a.set_value(4);
+    </script>
   </head>
   <body>
-    Hi, circuits.
+    Hi, srs.
   </body>
 </html>
