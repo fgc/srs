@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="priority_queue.js"></script>
+    <script src="srs_core.js"></script>
+    <script src="srs_gates.js"></script>
+    <script src="srs_graphics.js"></script>
+    <script>
+      window.onload = function () {
+          var asw = SRS.checkbox("asw");
+          var bsw = SRS.checkbox("bsw");
+          var a_and_b = SRS.andgate(asw, bsw);
+          var led = SRS.checkbox("a_and_b_led", a_and_b);
+          SRS.lift(function(i){console.log(i);},a_and_b);
+      };
+    </script>
+  </head>
+  <body>
+    <label>A<input type="checkbox" id="asw" /></label>
+    <label>B<input type="checkbox" id="bsw" /></label>
+    <label>A && B<input type="checkbox" id="a_and_b_led" /></label>
+  </body>
+</html>

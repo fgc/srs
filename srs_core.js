@@ -86,6 +86,26 @@ var SRS = (function() {
         return output;
     };
 
+    srs.lift2 = function(proc, input_a, input_b, delay, output) {
+        var output = output || new srs.Signal();
+        var action = function() {
+            var in_value_a = input_a.get_value();
+            var in_value_b = input_b.get_value();
+            if (in_value_a != undefined && in_value_b != undefined) {
+                output.set_value(proc(in_value_a, in_value_b));
+            }
+        };
+
+        if (delay) {
+            action = delayed(action, delay);
+        }
+        
+        input_a.add_action(action);
+        input_b.add_action(action);
+        
+        return output;
+    };
+
     srs.fold = function(step, acc, input, output) {
         var output = output || new srs.Signal();
         output.set_value(acc);
