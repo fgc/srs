@@ -31,6 +31,11 @@ var SRS = (function() {
         proc();
     };
 
+    srs.Signal.prototype.init = function(value) {
+        this.set_value(value);
+        return this;
+    }
+
     
     /* Event queueing and propagation */
 
@@ -130,6 +135,15 @@ var SRS = (function() {
         },1);
         input.add_action(action);
         return output;
+    };
+
+    srs.trace = function(tag, input, output) {
+        var tag = tag || "Untagged trace: ";
+        return srs.lift(function(str) {console.log ("[trace] " + tag +": " + str);}, input, 0, output);
+    };
+
+    srs.Signal.prototype.trace = function(tag, output) {
+        return srs.trace(tag, this, output);
     };
 
     /** END srs_core **/

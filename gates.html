@@ -8,8 +8,8 @@
     <script>
       window.onload = function () {
 
-	  var asw = SRS.checkbox("asw").checkbox("A",undefined,"A_led",true);
-	  var bsw = SRS.checkbox("bsw").checkbox("B",undefined,"B_led",true);
+	  var asw = SRS.checkbox("asw").init(false).checkbox("A",undefined,"A_led",true);
+	  var bsw = SRS.checkbox("bsw").init(false).checkbox("B",undefined,"B_led",true);
           SRS.andgate(asw, bsw).checkbox("a_and_b", 
                                          undefined,
                                          "A_and_B_led",

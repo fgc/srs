@@ -1,4 +1,4 @@
-/* DOM based IO elements */
+/* DOM based reactive UI elements */
 var SRS = (function(srs) {
 
     //** checkboxes that act as toggles and "leds" **/
@@ -130,6 +130,6 @@ var SRS = (function(srs) {
 
 
 
-    /** end dom based IO**/
+    /** end dom based UI**/
     return srs;
 }(SRS));
