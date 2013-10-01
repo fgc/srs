@@ -111,6 +111,22 @@ var SRS = (function() {
         return output;
     };
 
+    srs.liftn = function(proc, output) {
+        var args = Array.prototype.slice.call(arguments, 2);
+        var action = function () {
+            var values = args.map(function(s){return s.get_value()});
+            if (values.every(function(value){return value != undefined;})) {
+                output.set_value(proc.apply(this, values));
+            }
+        };
+        for (var i = 0; i < args.length; i++) {
+            args[i].add_action(action);
+        }
+        return output;
+    }
+
+    /** some more useful signal functions **/
+
     srs.fold = function(step, acc, input, output) {
         var output = output || new srs.Signal();
         output.set_value(acc);
