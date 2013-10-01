@@ -139,7 +139,7 @@ var SRS = (function() {
 
     srs.trace = function(tag, input, output) {
         var tag = tag || "Untagged trace: ";
-        return srs.lift(function(str) {console.log ("[trace] " + tag +": " + str);}, input, 0, output);
+        return srs.lift(function(value) {console.log ("[trace] " + tag +": " + value); return value}, input, 0, output);
     };
 
     srs.Signal.prototype.trace = function(tag, output) {

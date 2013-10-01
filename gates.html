@@ -8,12 +8,9 @@
     <script>
       window.onload = function () {
 
-	  var asw = SRS.checkbox("asw").init(false).checkbox("A",undefined,"A_led",true);
-	  var bsw = SRS.checkbox("bsw").init(false).checkbox("B",undefined,"B_led",true);
-          SRS.andgate(asw, bsw).checkbox("a_and_b", 
-                                         undefined,
-                                         "A_and_B_led",
-                                         true).as_text("t");
+	  var asw = SRS.flipswitch("asw","A_led").init(false).led("A","A_led");
+	  var bsw = SRS.flipswitch("bsw","B_led").init(false).led("B","B_led");
+          SRS.andgate(asw, bsw).led("a_and_b","A_and_B_led").as_text("t");
 
       };
     </script>
@@ -31,56 +28,17 @@
       #t {
         font-weight: bold;
       }
-
     </style>
   </head>
   <body>
     A<br>
-    <span class="switch">
-      <span class="switch-border1">
-	<span class="switch-border2">
-	  <input id="asw" type="checkbox" />
-	  <label for="asw"></label>
-	  <span class="switch-top"></span>
-	  <span class="switch-shadow"></span>
-	  <span class="switch-handle"></span>
-	  <span class="switch-handle-left"></span>
-	  <span class="switch-handle-right"></span>
-	  <span class="switch-handle-top"></span>
-	  <span class="switch-handle-bottom"></span>
-	  <span class="switch-handle-base"></span>
-	</span>
-      </span>
-    </span>
     <div id="A_led"></div>
-    
     <br>
-    
     B<br>
-    <span class="switch">
-      <span class="switch-border1">
-	<span class="switch-border2">
-	  <input id="bsw" type="checkbox" />
-	  <label for="bsw"></label>
-	  <span class="switch-top"></span>
-	  <span class="switch-shadow"></span>
-	  <span class="switch-handle"></span>
-	  <span class="switch-handle-left"></span>
-	  <span class="switch-handle-right"></span>
-	  <span class="switch-handle-top"></span>
-	  <span class="switch-handle-bottom"></span>
-	  <span class="switch-handle-base"></span>
-	</span>
-      </span>
-    </span>
     <div id="B_led"></div>
-    
     <br>
-
     A and B<br>
     <div id="A_and_B_led"></div>
-
     Is this awesome? <span id="t"></span>
-
   </body>
 </html>

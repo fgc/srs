@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="../../priority_queue.js"></script>
+    <script src="../../srs_core.js"></script>
+    <script src="../../srs_gates.js"></script>
+    <script src="../../srs_graphics.js"></script>
+    <script src="petz_components.js"></script>
+    <script> 
+      window.onload = function() {
+          var clk = SRS.flipswitch("clk").led("clk_led");
+          var clr = SRS.flipswitch("clr").led("clr_led");
+          var count = PETZC.counter(clk,clr,10);
+          count.trace("count").as_text("count");
+          PETZC.ram(100,count,clk).trace("ram read");
+          clr.init(true);
+          clk.init(false);
+          clr.set_value(false);
+      };
+    </script>
+    <link rel="stylesheet" href="css/srs_graphics.css">
+    <style>
+      body { 
+      padding: 100px; 
+      color: #aaa;
+      background-color: #222;
+      font-family: sans serif;
+      text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+</html>

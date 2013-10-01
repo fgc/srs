@@ -65,22 +65,35 @@ var SRS = (function(srs) {
                         "switch-handle-base"];
 
         var ispan;
-        for (var i = 0; i < swclasses.length; i++) {
+        for (var i = 0; i < sw_classes.length; i++) {
             ispan = document.createElement("span");
-            ispan.className = swclasses[i];
+            ispan.className = sw_classes[i];
             switch_border2.appendChild(ispan);
         }
 
+        context.appendChild(switch_span);
         return cb;
      
     }
+    
 
-    srs.checkbox = function(id, input, output, context, is_led) {
+    function checkbox_el(type, id, context) {
+        switch(type) {
+        case srs.checkbox.STD:
+            return make_switch(id,context);
+        case srs.checkbox.LED:
+            return make_led(id,context);
+        case srs.checkbox.SWITCH:
+            return make_switch(id,context);
+        default:
+            return make_checkbox(id,context);
+        }
+    };
+
+    srs.checkbox = function(id, input, output, context, type) {
         var context = document.getElementById(context) || document.body;
         var output = output || new srs.Signal();
-        console.log("is_led is: " + is_led);
-        var el = document.getElementById(id) || 
-            (is_led?make_led(id, context):make_checkbox(id, context));
+        var el = document.getElementById(id) || checkbox_el(type, id, context);
         console.log(el);
         el.checked = false;
         output.set_value(undefined);
@@ -100,10 +113,23 @@ var SRS = (function(srs) {
         return output;
     };
 
+    var cb_type = 0;
+    srs.checkbox.LED = cb_type++; 
+    srs.checkbox.SWITCH = cb_type++; 
+    srs.checkbox.STD = cb_type++; 
 
-    srs.Signal.prototype.checkbox = function (id, output, context, is_led) {
-        return srs.checkbox(id, this, output, context, is_led); 
+
+    srs.Signal.prototype.checkbox = function(id, output, context, type) {
+        return srs.checkbox(id, this, output, context, type); 
     };
+
+    srs.Signal.prototype.led = function(id, context) {
+        return srs.checkbox(id, this, undefined, context, srs.checkbox.LED);
+    }
+
+    srs.flipswitch = function(id, context, output) {
+        return srs.checkbox(id, undefined, output, context, srs.checkbox.SWITCH);
+    }
 
     function make_span(id, context) {
         var context = context || document.body;
