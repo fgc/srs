@@ -131,6 +131,43 @@ var SRS = (function(srs) {
         return srs.checkbox(id, undefined, output, context, srs.checkbox.SWITCH);
     }
 
+    /*********************************************************************/
+
+    function make_textinput(id, context) {
+        var el = document.createElement("input");
+        el.id = id;
+        el.type = "text";
+        context.appendChild(el);
+        return el;
+    }
+    
+    srs.textinput = function(id, input, output, context) {
+        var context = document.getElementById(context) || document.body;
+        var output = output || new srs.Signal();
+        var el = document.getElementById(id) || make_textinput(id, context);
+        el.onchange = function() {
+            output.set_value(el.value);
+        }
+        el.onkeypress = el.onchange
+        el.onpaste = el.onchange;
+        el.oninput = el.onchange;;
+        
+        
+        if (input != undefined) {
+            //el.disabled = true;
+            input.add_action(function() {
+                var new_value = input.get_value();
+                el.value = new_value;
+                output.set_value(new_value); //will onchange fire by itself so this is redundant?
+            });      
+        }
+
+        return output;
+    };
+
+
+
+    /*******************************************/
     function make_span(id, context) {
         var context = context || document.body;
         var el = document.createElement("span");
