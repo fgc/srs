@@ -18,7 +18,7 @@ var SRS = (function() {
         if (this.value != new_value) {
             this.value = new_value;
             for (var i = 0; i < this.action_procedures.length; i++) {
-                this.action_procedures[i]();
+                this.action_procedures[i](new_value);
             }
         }
         return this;
@@ -31,7 +31,24 @@ var SRS = (function() {
 
     /* Separate events from signals */
 
+    srs.Event = function() {
+        this.lastvalue = undefined;
+        this.action_procedures = new Array();
+    };
 
+    srs.Event.prototype = new srs.Signal();
+
+    srs.Event.prototype.get_value = function() {
+        return this.lastvalue;
+    };
+    
+    srs.Event.prototype.set_value = function(new_value) {
+        if (new_value != undefined) {
+            this.lastvalue = new_value;
+            this.action_procedures.map(function(proc){return proc();});
+        }
+        return this;
+    };
     
     /* Propagation and Queueing*/
     var schedule = new PriorityQueue({low: true});

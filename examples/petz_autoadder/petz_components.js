@@ -2,71 +2,34 @@ var PETZC = (function(srs) {
     var petzc = {};
 
 
-    petzc.better_counter = function(clk, clr, max, output) {
-        var output = output || new srs.Signal();
-        var max = max || 65536; //16-bit by default
-        var count = undefined;
-
-        var increment = function (clk_val) {
-            console.log("increment yay: " + clk_val);
-            if (clk_val) {
-                if (count == undefined) {
-                    count = 0;
-                    return count;
-                }
-                return ++count % max;
-            }
-            return count;
-        };
-        
-        var clearup = function(clr_val) {
-            if (clr_val) {
-                count = undefined;
-                return undefined;
-            }
-        };
-
-        srs.lift(clearup,clr,1).trace("IN_counter_clear");
-        
-        var counter = srs.lift(increment,clk,1);
-        counter.trace("IN_counter_counter");
-
-        return counter;
-    }
-
     petzc.counter = function(clk, clr, max, output) {
         var output = output || new srs.Signal();
         var max = max || 65536; //16-bit by default
         var count = undefined;
 
-        var increment = function(clk) {
+        var increment = function (clk_val) {
             if (clr.get_value()) {
-                count = undefined;
-                return undefined;
-            }
-
-            if (!clk) {
-                return count;
+                return undefined; // don't count up when clear is up
             }
 
             if (count == undefined) {
-                return 0;
+                count = 0;
+                return count;
             }
- 
-            count = ++count%max;
-            return count;
-   
+            return ++count % max;
         };
-
-        var zero = function(clr) {
+        
+        var clearup = function(clr_val) {
             count = undefined;
             return undefined;
         };
 
-        srs.lift(increment, clk, 1, output);
-        srs.lift(zero, clr, 1, output);
-        return output;
-    };
+        srs.lift(clearup,clr,1);
+        
+        var counter = clk.rising_edge().lift(increment);
+
+        return srs.if_s(clr,srs.constant("undefined"),counter);
+    }
 
     petzc.ram = function(size, addr, data_in, write, data_out) {
         var data_out = data_out || new srs.Signal();

@@ -4,6 +4,7 @@
     <script src="priority_queue.js"></script>
     <script src="srs_core.js"></script>
     <script src="srs_signal.js"></script>
+    <script src="srs_event.js"></script>
     <script src="srs_graphics.js"></script>
     <script src="srs_io.js"></script>
 
@@ -12,10 +13,10 @@
           var mouse = SRS.mouse();
           var x = mouse.lift(function(coords) {return coords.x;},1);
           var y = mouse.lift(function(coords) {return coords.y;},1);
-          window.arrows = SRS.arrows().trace();
+          window.arrows = SRS.arrows().trace("arrows");
           SRS.flipswitch("kkza").if_s(x, y).as_text("curcoord");
           SRS.flipswitch("clk").if_s(SRS.constant().set_value("foo"), SRS.constant().set_value("bar")).as_text("if");
-          
+          SRS.flipswitch("evt").rising_edge().lift(function(v){console.log(v);});
       };
     </script>
     <link rel="stylesheet" href="css/srs_graphics.css">

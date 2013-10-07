@@ -4,6 +4,7 @@
     <script src="../../priority_queue.js"></script>
     <script src="../../srs_core.js"></script>
     <script src="../../srs_signal.js"></script>
+    <script src="../../srs_event.js"></script>
     <script src="../../srs_gates.js"></script>
     <script src="../../srs_graphics.js"></script>
     <script src="../../srs_io.js"></script>
@@ -12,7 +13,7 @@
       window.onload = function() {
           var clk = SRS.flipswitch("clk","system");
           var clr = SRS.flipswitch("clr","system");
-          var count = PETZC.better_counter(clk,clr,10);
+          var count = PETZC.counter(clk,clr,10);
           clk.if_s(SRS.constant("foo"), SRS.constant("bar")).as_text("if");
           count.as_text("count");
       };
