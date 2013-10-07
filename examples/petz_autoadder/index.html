@@ -3,36 +3,28 @@
   <head>
     <script src="../../priority_queue.js"></script>
     <script src="../../srs_core.js"></script>
+    <script src="../../srs_signal.js"></script>
+    <script src="../../srs_event.js"></script>
     <script src="../../srs_gates.js"></script>
     <script src="../../srs_graphics.js"></script>
+    <script src="../../srs_io.js"></script>
     <script src="petz_components.js"></script>
+ 
     <script> 
       window.onload = function() {
           var clk = SRS.flipswitch("clk","system").led("clk_led","system");
           var clr = SRS.flipswitch("clr","system").led("clr_led","system");
           var count = PETZC.counter(clk,clr,10);
-          count.as_text("count");
           var data_out_bus = new SRS.Signal();
           var panel = PETZC.ram_control_panel("panel1", data_out_bus);
           var ram_system_input = {addr: count, data: clk, write: new SRS.Signal().set_value(false)};
           var selector = PETZC.ram_control_selector(panel,ram_system_input,panel.takeover);
           var ram = PETZC.ram(100, selector.addr, selector.data, selector.write, data_out_bus);
-          ram.as_text("ram");
-
           var adder_loopback = new SRS.Signal();
 
           var adder = PETZC.adder(ram, adder_loopback);
-          adder.trace("ADDER");
-      
           var latch = PETZC.latch(adder, clk, clr, adder_loopback);
-          latch.trace("LATCH");
-
           var result = latch.as_text("result");
-          //fire this up
-          clr.set_value(true);
-          clk.set_value(false);
-
-          
       };
     </script>
     <link rel="stylesheet" href="css/srs_graphics.css">
