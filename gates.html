@@ -3,13 +3,14 @@
   <head>
     <script src="priority_queue.js"></script>
     <script src="srs_core.js"></script>
+    <script src="srs_signal.js"></script>
     <script src="srs_gates.js"></script>
     <script src="srs_graphics.js"></script>
     <script>
       window.onload = function () {
 
-	  var asw = SRS.flipswitch("asw","A_led").init(false).led("A","A_led");
-	  var bsw = SRS.flipswitch("bsw","B_led").init(false).led("B","B_led");
+	  var asw = SRS.flipswitch("asw","A_led").set_value(false).led("A","A_led");
+	  var bsw = SRS.flipswitch("bsw","B_led").set_value(false).led("B","B_led");
           SRS.andgate(asw, bsw).led("a_and_b","A_and_B_led").as_text("t");
 
       };

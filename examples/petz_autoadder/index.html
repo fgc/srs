@@ -14,7 +14,7 @@
           count.as_text("count");
           var data_out_bus = new SRS.Signal();
           var panel = PETZC.ram_control_panel("panel1", data_out_bus);
-          var ram_system_input = {addr: count, data: clk, write: new SRS.Signal().init(false)};
+          var ram_system_input = {addr: count, data: clk, write: new SRS.Signal().set_value(false)};
           var selector = PETZC.ram_control_selector(panel,ram_system_input,panel.takeover);
           var ram = PETZC.ram(100, selector.addr, selector.data, selector.write, data_out_bus);
           ram.as_text("ram");
@@ -29,9 +29,8 @@
 
           var result = latch.as_text("result");
           //fire this up
-          clr.init(true);
-          clk.init(false);
-          clr.set_value(false);
+          clr.set_value(true);
+          clk.set_value(false);
 
           
       };

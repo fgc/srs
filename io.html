@@ -14,7 +14,7 @@
           var y = mouse.lift(function(coords) {return coords.y;},1);
           window.arrows = SRS.arrows().trace();
           SRS.flipswitch("kkza").if_s(x, y).as_text("curcoord");
-          SRS.flipswitch("clk").if_s(SRS.constant().init("foo"), SRS.constant().init("bar")).as_text("if");
+          SRS.flipswitch("clk").if_s(SRS.constant().set_value("foo"), SRS.constant().set_value("bar")).as_text("if");
           
       };
     </script>

@@ -98,8 +98,8 @@ var PETZC = (function(srs) {
     petzc.ram_control_panel = function (id, ram_data_out) {
         var addr = srs.textinput("addr_" + id);
         var data = srs.textinput("data_" + id, ram_data_out);
-        var write = srs.flipswitch("write_" + id, "write_" + id + "_div").init(false);
-        var takeover = srs.flipswitch("takeover_" + id, "takeover_" + id + "_div").init(false);
+        var write = srs.flipswitch("write_" + id, "write_" + id + "_div").set_value(false);
+        var takeover = srs.flipswitch("takeover_" + id, "takeover_" + id + "_div").set_value(false);
 
         return {addr: addr, data: data, write: write, takeover: takeover};
     }
