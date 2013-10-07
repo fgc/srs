@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="priority_queue.js"></script>
+    <script src="srs_core.js"></script>
+    <script src="srs_signal.js"></script>
+    <script src="srs_graphics.js"></script>
+    <script src="srs_io.js"></script>
+
+    <script> 
+      window.onload = function() {
+          var mouse = SRS.mouse();
+          var x = mouse.lift(function(coords) {return coords.x;},1);
+          var y = mouse.lift(function(coords) {return coords.y;},1);
+          window.arrows = SRS.arrows().trace();
+          SRS.flipswitch("kkza").if_s(x, y).as_text("curcoord");
+          SRS.flipswitch("clk").if_s(SRS.constant().init("foo"), SRS.constant().init("bar")).as_text("if");
+          
+      };
+    </script>
+    <link rel="stylesheet" href="css/srs_graphics.css">
+    <style>
+      body { 
+      padding: 100px; 
+      color: #aaa;
+      background-color: #222;
+      font-family: sans serif;
+      text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+</html>

@@ -91,6 +91,10 @@ var SRS = (function() {
         return output;
     };
 
+    srs.Signal.prototype.lift = function(proc, delay, output) {
+       return srs.lift(proc,this,delay,output);
+    }
+
     srs.lift2 = function(proc, input_a, input_b, delay, output) {
         var output = output || new srs.Signal();
         var action = function() {
@@ -111,11 +115,11 @@ var SRS = (function() {
         return output;
     };
 
-    srs.liftn = function(proc, output) {
+    srs.liftn = function(proc, output) {        
         var args = Array.prototype.slice.call(arguments, 2);
         var action = function () {
             var values = args.map(function(s){return s.get_value()});
-            if (values.every(function(value){return value != undefined;})) {
+            if (values.some(function(value){return value != undefined;})) {
                 output.set_value(proc.apply(this, values));
             }
         };

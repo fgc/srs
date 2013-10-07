@@ -3,7 +3,6 @@ var SRS = (function(srs) {
 
     //** checkboxes that act as toggles and "leds" **/
     function make_checkbox(id, context) {
-        console.log("Making CB");
         var el = document.createElement("input");
         el.id = id;
         el.type = "checkbox";
@@ -12,7 +11,6 @@ var SRS = (function(srs) {
     }
 
     function make_led(id, context) {
-        console.log("Making led");
         var outerdiv = document.createElement("div");
         outerdiv.style = "display: inline-block;text-align: center;"
         //outerdiv.innerHTML = id;
@@ -33,8 +31,6 @@ var SRS = (function(srs) {
     }
 
     function make_switch(id, context) {
-        console.log("Making switch");
-
         var switch_span = document.createElement("span");
         switch_span.className = "switch";
 
@@ -94,7 +90,6 @@ var SRS = (function(srs) {
         var context = document.getElementById(context) || document.body;
         var output = output || new srs.Signal();
         var el = document.getElementById(id) || checkbox_el(type, id, context);
-        console.log(el);
         el.checked = false;
         output.set_value(undefined);
         el.onchange = function() {
@@ -177,13 +172,13 @@ var SRS = (function(srs) {
     }
 
     srs.as_text = function(id, input, context) {
-        var output = output || new srs.Signal();
         var el = document.getElementById(id) || make_span(id, context);
         
         input.add_action(function() {
             var new_value = input.get_value();
             el.innerHTML = new_value;
-        });      
+        });
+        return input;
     };
 
     srs.Signal.prototype.as_text = function (id, context) {
