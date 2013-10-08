@@ -10,7 +10,7 @@
     <script src="../../srs_io.js"></script>
     <script> 
       window.onload = function() {
-      SRS.textinput("textinput").sample_on(SRS.flipswitch("freeze").rising_edge()).trace("RESULT");
+      SRS.textinput("textinput").sample_on(SRS.flipswitch("freeze").rising_edge()).as_text("t").trace("RESULT");
       };
     </script>
     <link rel="stylesheet" href="../../css/srs_graphics.css">

@@ -100,29 +100,10 @@ var PETZC = (function(srs) {
     };
 
     petzc.latch = function (data_in, clk, clr, data_out) {
-        var data_out = data_out || new srs.Signal();
-        var content = undefined;
-        var store_proc = function(store_it) {
-            if (clr.get_value()) {
-                return 0;
-            }
-            if (store_it) {
-                content = data_in.get_value();
-            }
-            return content;
-        };
-
-        var clr_proc = function(){
-            if (clr) {
-                content = 0;
-                return content;
-            }
-        };
-        data_in.trace("LATCH data in");
-        srs.lift(store_proc, clk, 1, data_out);
-        srs.lift(clr_proc, clr, 1, data_out);
-        
-        return data_out;
+        var content = data_in.sample_on(clk.rising_edge(), data_out).set_value(0);
+        //ugly? but we need to zero the content signal on clear
+        var zero = clr.lift(function(){content.set_value(0); return 0;});
+        return clr.if_s(zero, content, data_out);
     };
 
     return petzc;

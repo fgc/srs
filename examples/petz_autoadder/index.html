@@ -14,7 +14,7 @@
       window.onload = function() {
           var clk = SRS.flipswitch("clk","system").led("clk_led","system");
           var clr = SRS.flipswitch("clr","system").led("clr_led","system");
-          var count = PETZC.counter(clk,clr,10).trace("COUNT");
+          var count = PETZC.counter(clk,clr,10).as_text("count");
           var data_out_bus = new SRS.Signal();
           var adder_loopback = new SRS.Signal();
 
@@ -29,16 +29,7 @@
           var result = latch.as_text("result");
       };
     </script>
-    <link rel="stylesheet" href="css/srs_graphics.css">
-    <style>
-      body { 
-      padding: 100px; 
-      color: #aaa;
-      background-color: #222;
-      font-family: sans serif;
-      text-align: center;
-      }
-    </style>
+    <link rel="stylesheet" href="../../css/srs_graphics.css">
   </head>
   <body>
     <div id="panel" style="background-color: #444;">
