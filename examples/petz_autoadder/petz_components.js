@@ -32,7 +32,6 @@ var PETZC = (function(srs) {
     }
 
     petzc.ram = function(size, addr, data_in, write, data_out) {
-        var data_out = data_out || new srs.Signal();
         var contents = new Array(size);
         contents[0]=1;
         contents[1]=2;
@@ -42,6 +41,8 @@ var PETZC = (function(srs) {
         contents[5]=6;
         contents[6]=7;
         contents[7]=8;
+        contents[8]=0;
+        contents[9]=0;
 
         var read_proc = function (addr) {
             return contents[addr % size];
@@ -53,9 +54,9 @@ var PETZC = (function(srs) {
         };
 
         if (data_in != undefined && write != undefined) {
-            srs.lift(write_proc, write, 1, data_out);
+            write.rising_edge().lift(write_proc);
         }
-        return srs.lift(read_proc, addr, 1, data_out);        
+        return addr.lift(read_proc, 1, data_out);        
     }
 
     petzc.ram_control_panel = function (id, ram_data_out) {
@@ -92,7 +93,7 @@ var PETZC = (function(srs) {
 
 
     petzc.adder = function (input_a, input_b) {
-        return srs.liftn(function(a,b){console.log("in_adder: " + a + ", " + b);return a+b;},
+        return srs.liftn(function(a,b){return a+b;},
                      new srs.Signal(),
                      input_a,
                      input_b);
@@ -102,13 +103,11 @@ var PETZC = (function(srs) {
         var data_out = data_out || new srs.Signal();
         var content = undefined;
         var store_proc = function(store_it) {
-            console.log("latch store proc. clr: " + clr.get_value() + ", clk:" + clk.get_value() + "data_in: " +data_in.get_value());
             if (clr.get_value()) {
                 return 0;
             }
             if (store_it) {
                 content = data_in.get_value();
-                console.log("Content:" + content);
             }
             return content;
         };

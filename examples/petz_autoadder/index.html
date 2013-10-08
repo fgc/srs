@@ -14,13 +14,15 @@
       window.onload = function() {
           var clk = SRS.flipswitch("clk","system").led("clk_led","system");
           var clr = SRS.flipswitch("clr","system").led("clr_led","system");
-          var count = PETZC.counter(clk,clr,10);
+          var count = PETZC.counter(clk,clr,10).trace("COUNT");
           var data_out_bus = new SRS.Signal();
+          var adder_loopback = new SRS.Signal();
+
           var panel = PETZC.ram_control_panel("panel1", data_out_bus);
-          var ram_system_input = {addr: count, data: clk, write: new SRS.Signal().set_value(false)};
+          var ram_system_input = {addr: count, data: adder_loopback, write: SRS.inverter(clk)};
           var selector = PETZC.ram_control_selector(panel,ram_system_input,panel.takeover);
           var ram = PETZC.ram(100, selector.addr, selector.data, selector.write, data_out_bus);
-          var adder_loopback = new SRS.Signal();
+
 
           var adder = PETZC.adder(ram, adder_loopback);
           var latch = PETZC.latch(adder, clk, clr, adder_loopback);
