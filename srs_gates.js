@@ -49,7 +49,14 @@ var SRS = (function(srs) {
     
     srs.from_bus = function(bus, output) {
         var output = output || new srs.Signal(); //Don't remove this one, even if you
-                                                 //clean it from other places
+                                                 //clean it from other places we do need
+                                                 //a real output to connect to every bit
+
+        //This is quite bad, lots of unneeded recalcs, might be useful to
+        //have a current value and deal with incoming single bits.
+
+        /* get the current values for every bit signal in the bus
+           and return the corresponding number */
         var bus_to_number = function() {
             return bus.reduce(function (acc, bit, i) {
                 console.log(i + "->" + (bit.get_value() << i));
@@ -57,6 +64,8 @@ var SRS = (function(srs) {
             },0);
         };
 
+        /* recalculate the output for every change of one of the signals
+           in the bus*/
         bus.map(function(s){s.lift(bus_to_number,1,output);});
         
         return output;
