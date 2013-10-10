@@ -1,15 +1,15 @@
 /* Core SRS module */
 var SRS = (function() {
     var srs = {};
-    
+
 
     /* SICP style wire/signal simulator */
-    
+
     srs.Signal = function() {
         this.value = undefined;
         this.action_procedures = new Array();
     };
-    
+
     srs.Signal.prototype.get_value = function() {
         return this.value;
     };
@@ -23,7 +23,7 @@ var SRS = (function() {
         }
         return this;
     };
-    
+
     srs.Signal.prototype.add_action = function (proc) {
         this.action_procedures.push(proc);
         proc();
@@ -41,7 +41,7 @@ var SRS = (function() {
     srs.Event.prototype.get_value = function() {
         return this.lastvalue;
     };
-    
+
     srs.Event.prototype.set_value = function(new_value) {
         if (new_value != undefined) {
             this.lastvalue = new_value;
@@ -49,7 +49,7 @@ var SRS = (function() {
         }
         return this;
     };
-    
+
     /* Propagation and Queueing*/
     var schedule = new PriorityQueue({low: true});
     schedule.propagating = false;
@@ -74,7 +74,7 @@ var SRS = (function() {
             propagate();
         }
     };
-    
+
     /** END srs_core **/
     return srs;
 }());

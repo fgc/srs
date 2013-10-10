@@ -36,6 +36,7 @@ var SRS = (function(srs) {
         
         input.lift(function(n) {
             bits.map(function(bit,i){
+                //this might need 2-complement conversion
                 bit.set_value((n >> i) & 1);
             });
         },1);
@@ -59,7 +60,8 @@ var SRS = (function(srs) {
            and return the corresponding number */
         var bus_to_number = function() {
             return bus.reduce(function (acc, bit, i) {
-                console.log(i + "->" + (bit.get_value() << i));
+                //console.log(i + "->" + (bit.get_value() << i));
+                //2-complement missing!
                 return acc + (bit.get_value() << i);
             },0);
         };

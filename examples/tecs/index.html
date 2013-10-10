@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="../../priority_queue.js"></script>
+    <script src="../../srs_core.js"></script>
+    <script src="../../srs_signal.js"></script>
+    <script src="../../srs_event.js"></script>
+    <script src="../../srs_gates.js"></script>
+    <script src="../../srs_graphics.js"></script>
+    <script src="../../srs_io.js"></script>
+    <script src="tecs_components.js"></script>
+
+    <script>
+      window.onload = function() {
+
+      T.not(SRS.flipswitch("in_not","not").set_value(false)).led("out_not","not");
+
+      T.and(
+        SRS.flipswitch("in_and_a","and"),
+        SRS.flipswitch("in_and_b","and")
+      ).led("out_and","and");
+
+      T.or(
+        SRS.flipswitch("in_or_a","or"),
+        SRS.flipswitch("in_or_b","or")
+      ).led("out_or","or");
+
+      T.xor(
+        SRS.flipswitch("in_xor_a","xor"),
+        SRS.flipswitch("in_xor_b","xor")
+      ).led("out_xor","xor");
+
+      T.mux(
+        SRS.flipswitch("mux_select","mux"),
+        SRS.flipswitch("in_mux_a","mux"),
+        SRS.flipswitch("in_mux_b","mux")
+      ).led("out_mux","mux");
+
+      var d_out = T.demux(
+        SRS.flipswitch("demux_select","demux").set_value(false),
+        SRS.flipswitch("in_demux","demux").set_value(false)
+      );
+      d_out.out_a.led("out_a_demux","demux");
+      d_out.out_b.led("out_b_demux","demux");
+
+      var adder = T.adder(16,
+        SRS.textinput("in_adder_a").to_bus(16),
+        SRS.textinput("in_adder_b").to_bus(16));
+        SRS.from_bus(adder.out_bus).as_text("ADD");
+
+      adder.carry.led("adder_carry","adderdiv");
+
+      T.dff(
+        SRS.flipswitch("in_dff","dff"),
+        SRS.flipswitch("clk_dff","dff")
+      ).led("out_dff","dff");
+
+      T.register(
+        SRS.flipswitch("in_register","register"),
+        SRS.flipswitch("clk_register","register"),
+        SRS.flipswitch("load_register","register")
+      ).led("out_register","register");
+
+
+      };
+
+    </script>
+    <link rel="stylesheet" href="../../css/srs_graphics.css">
+  </head>
+  <body>
+    <div id="not">
+      NOT<br>
+    </div>
+    <hr>
+    <div id="and">
+      AND<br>
+    </div>
+    <hr>
+    <div id="or">
+      OR<br>
+    </div>
+    <hr>
+    <div id="xor">
+      XOR<br>
+    </div>
+    <hr>
+    <div id="mux">
+      MUX<br>
+    </div>
+    <hr>
+    <div id="demux">
+      DEMUX<br>
+    </div>
+    <hr>
+    <div id="adderdiv">
+      ADDER<br>
+      <input type="text" id="in_adder_a" />
+      <input type="text" id="in_adder_b" />
+      sum: <span id="ADD"></span><br>
+      overflow
+    </div>
+    <hr>
+    <div id="dff">
+      DFF<br>
+    </div>
+    <hr>
+    <div id="register">
+      REG<br>
+    </div>
+  </body>
+</html>

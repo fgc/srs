@@ -78,9 +78,8 @@ var SRS = (function(srs) {
     };
 
 
-    srs.constant = function(val, output) {
-        var output = output || new srs.Signal();
-        return srs.lift(function(_v){return val;}, new srs.Signal(), 1, output);
+    srs.constant = function(val) {
+        return (new srs.Signal()).set_value(val);
     };
 
     srs.if_s = function(if_signal, true_signal, false_signal, output) {
