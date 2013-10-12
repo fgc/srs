@@ -11,13 +11,21 @@
 
     
     <script src="dlx_config.js"></script>
+    <script src="dlx_components.js"></script>
+    <script src="dlx_control.js"></script>
     <script src="dlx_memory.js"></script>
-
+    <script src="dlx_stage_if.js"></script>
+    <script src="dlx_stage_id.js"></script>
 
 
 
     <script>
       window.onload = function() {
+
+      DLX.memory.test_data();
+      DLX.init_control();
+      DLX.init_stage_if();
+      DLX.init_stage_id();
 
       };
 

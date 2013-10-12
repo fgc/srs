@@ -18,19 +18,24 @@
         return r.lift(aligned, input);
     };
 
-    dlx.memory.instruction_cache = function (addr, clk) {
+    dlx.memory.instruction_cache = function (addr) {
         addr.set_value(0);
         var read_proc = function(addr_value) {
             var word_addr = addr_value / 4;
             return ui32view[word_addr];
         };
-        var content = r.lift(read_proc, align_checker(addr));
-        return r.sample_on(content, r.inverter(clk).rising_edge());
+        return r.lift(read_proc, align_checker(addr));
     }; 
 
 
     dlx.memory.test_data = function() {
-        for (var i = 0; i < 10; i++) {
+        
+        ui32view[0] = 0x20010064;
+        ui32view[1] = 0x20220065;
+        ui32view[2] = 0x20430066;
+        ui32view[3] = 0x24640067;
+
+        for (var i = 4; i < 10; i++) {
             ui32view[i] = 2*i;
         }
         ui32view[10] = 0xffffffff;
