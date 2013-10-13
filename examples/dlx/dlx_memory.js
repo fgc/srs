@@ -28,7 +28,7 @@
     }; 
 
 
-    dlx.memory.test_data = function() {
+    dlx.memory.ram_test_data = function() {
         
         ui32view[0] = 0x20010064;
         ui32view[1] = 0x20220065;
@@ -44,6 +44,42 @@
         }
         
     };
+
+
+
+    var register_buffer = new ArrayBuffer(32);
+    var register_view = new Int32Array(register_buffer);
+
+    dlx.memory.register_file = function(reg_A, reg_B, reg_W, data_W, W) {
+        
+        r.lift(function(W_val) {
+            if (W_val) {
+                register_view[reg_W.get_value()] = data_W.get_value(); 
+            }
+        }, W);
+
+        var read_reg = function (reg) {
+            if (reg == 0) {
+                return 0;
+            }
+            return register_view[reg];
+        };
+        
+        return {
+            out_a: r.lift(read_reg, reg_A),
+            out_b: r.lift(read_reg, reg_B)
+        };
+
+    };
+
+    dlx.memory.register_test_data = function() {
+        
+       register_view[1] = 111;
+       register_view[2] = 222;
+       register_view[3] = 333;
+       register_view[4] = 444;
+       register_view[5] = 555;
+    }
 
     return dlx;
 }(DLX,SRS));

@@ -17,6 +17,9 @@ var DLX = (function(dlx,srs) {
         dlx.stage_if.next_pc = next_pc;
         dlx.stage_if.instr = instr;
 
+
+        //pipeline stage registers
+
         dlx.stage_if.npc = dlx.components.register(next_pc, 
                                                    dlx.control.not_clk, 
                                                    dlx.control.clr, 
