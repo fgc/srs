@@ -11,6 +11,20 @@ var DLX = (function(dlx,srs) {
         var r2  = ir.lift(function(instr){ return (instr >> 16) & 0x1f ;}).trace("R2");
         var imm = ir.lift(function(instr){ return instr & 0xff ;}).trace("IMM");
         
+        //control logic. test this thoroughly
+        var r_format   = op.lift(function(op) {return op == 0;});
+        var alu_src    = op.lift(function(op) {return op & 0x08;});
+        var mem_to_reg = op.lift(function(op) {return (op & 0x20) && (op & 0x3);});
+        var reg_write  = op.lift(function(op) {return !((op & 0x28) || (op>>3 == 0));});
+        var mem_read   = mem_to_reg;
+        var mem_write  = op.lift(function(op) {return (op & 0x28) && (op & 0x3);});
+        var branch     = op.lift(function(op) {return (op >> 3 == 0) && (op & 0x7);});
+        var alu_op1    = r_format;
+        var alu_op0    = true //fix this, not every instruction adds in the alu.
+        
+                      
+        
+
         var register_file = dlx.memory.register_file(r1,r2,new srs.Signal(), new srs.Signal(), new srs.Signal());
 
 
@@ -36,12 +50,46 @@ var DLX = (function(dlx,srs) {
                                                    dlx.control.clr, 
                                                    dlx.control.not_clk);
         //implicit sign-extend 16->32
-        dlx.stage_id.imm = dlx.components.register(imm, 
-                                                   dlx.control.not_clk, 
-                                                   dlx.control.clr, 
-                                                   dlx.control.not_clk);
-
-
+        dlx.stage_id.imm        = dlx.components.register(imm, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.r_format   = dlx.components.register(r_format, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.alu_src    = dlx.components.register(alu_src, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.mem_to_reg = dlx.components.register(mem_to_reg, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.reg_write  = dlx.components.register(reg_write, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.mem_read   = dlx.components.register(mem_read, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.mem_write  = dlx.components.register(mem_write, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.branch     = dlx.components.register(branch, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.alu_op1    = dlx.components.register(alu_op1, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
+        dlx.stage_id.alu_op0    = dlx.components.register(alu_op0, 
+                                                          dlx.control.not_clk, 
+                                                          dlx.control.clr, 
+                                                          dlx.control.not_clk);
     };
 
     return dlx;
