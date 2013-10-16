@@ -11,11 +11,13 @@
 
     
     <script src="dlx_config.js"></script>
+    <script src="dlx_util.js"></script>
     <script src="dlx_components.js"></script>
     <script src="dlx_control.js"></script>
     <script src="dlx_memory.js"></script>
     <script src="dlx_stage_if.js"></script>
     <script src="dlx_stage_id.js"></script>
+    <script src="dlx_stage_ex.js"></script>
 
 
 
@@ -26,12 +28,20 @@
       DLX.memory.register_test_data();
       DLX.init_control();
       DLX.init_stage_if();
+      DLX.stage_if.ir.lift(function (n){return "0x" + n.toString(16);}).as_text("fetchedinstr");
+      DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd");
       DLX.init_stage_id();
+      DLX.init_stage_ex();
 
       };
 
     </script>
     <link rel="stylesheet" href="../../css/srs_graphics.css">
+    <style>
+      #fetchedinstrd {
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
   </body>

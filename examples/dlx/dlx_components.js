@@ -31,5 +31,9 @@ var DLX = (function(dlx,srs) {
         return srs.lift(onclk, clk, 1, output);
     };
 
+    dlx.components.mux = function (select, input_hi, input_lo, output) {
+        return srs.if_s(select, input_hi, input_lo, output);
+    };
+    
     return dlx;
 }(DLX,SRS));
