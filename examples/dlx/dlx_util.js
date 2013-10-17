@@ -58,13 +58,13 @@ var DLX = (function(dlx,srs) {
     fn[43]="sltu";
 
 
-    //TODO shifts and jumps
+    //TODO shifts,jumps, actual imm syntax for loads & writes
     dlx.util.disassemble = function(instruction) {
         if (instruction == 0) {
             return "nop";
         }
         var opcode = instruction >>> 26;
-        var name = (opcode==0)?fn[instruction & 0x1f]:op[opcode];
+        var name = (opcode==0)?fn[instruction & 0x3f]:op[opcode];
         if (name == undefined) {
             return "bad instruction: 0x" + instruction.toString(16);
         };
@@ -72,6 +72,8 @@ var DLX = (function(dlx,srs) {
         var rs1 = instruction >>> 16 & 0x1f;
         var rs2 = instruction >>> 11 & 0x1f;
         var imm = instruction & 0xffff;
+        var shamm = instruction >>> 6 & 0x1f;
+        var jaddr = instruction & 0x3ffffff;
         
         if ((opcode >>> 3) & 1 == 1) {
             return name + " r" + rd + ", " + "r" + rs1 + ", " + imm;

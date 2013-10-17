@@ -6,6 +6,10 @@ var DLX = (function(dlx,srs) {
     dlx.components.register = function (input, clk, clr, load, output) {
         var content = 0;
 
+        if (input === true) {
+            console.log("Bad input for register");
+        }
+
         var onclk= function(clk_val) {
             if (clr.get_value()) {
                 content = 0;

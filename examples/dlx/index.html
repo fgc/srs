@@ -27,11 +27,16 @@
       DLX.memory.ram_test_data();
       DLX.memory.register_test_data();
       DLX.init_control();
+      console.log("control up");
       DLX.init_stage_if();
+      console.log("if up");
       DLX.stage_if.ir.lift(function (n){return "0x" + n.toString(16);}).as_text("fetchedinstr");
       DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd");
+      console.log("id going up");
       DLX.init_stage_id();
+      console.log("id up");
       DLX.init_stage_ex();
+      console.log("ex up");
 
       };
 

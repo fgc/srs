@@ -20,7 +20,7 @@ var DLX = (function(dlx,srs) {
         var mem_write  = op.lift(function(op) {return (op & 0x28) && (op & 0x3);});
         var branch     = op.lift(function(op) {return (op >> 3 == 0) && (op & 0x7);});
         var alu_op1    = r_format;
-        var alu_op0    = true; //fix this, not every instruction adds in the alu.
+        var alu_op0    = srs.constant(true); //TODO fix this, not every instruction does the same in the alu.
         
                       
         
