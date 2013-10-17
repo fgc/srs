@@ -16,8 +16,48 @@ var DLX = (function(dlx,srs) {
             return a+b;
         },dlx.stage_id.r_a, op_b);
         
-    };
 
+    dlx.stage_ex.ir = dlx.components.register(dlx.stage_id.ir, 
+                                              dlx.control.not_clk, 
+                                              dlx.control.clr, 
+                                              dlx.control.not_clk);
+    
+    dlx.stage_ex.r_b = dlx.components.register(dlx.stage_id.r_b, 
+                                               dlx.control.not_clk, 
+                                               dlx.control.clr, 
+                                               dlx.control.not_clk);
+    
+    dlx.stage_ex.alu_out = dlx.components.register(alu, 
+                                                   dlx.control.not_clk, 
+                                                   dlx.control.clr, 
+                                                   dlx.control.not_clk);
+
+    dlx.stage_ex.bc = srs.constant(false); //TODO calculate this for jumps
+
+
+    dlx.stage_ex.mem_to_reg = dlx.components.register(dlx.stage_id.mem_to_reg, 
+                                                    dlx.control.not_clk, 
+                                                    dlx.control.clr, 
+                                                    dlx.control.not_clk);
+    dlx.stage_ex.reg_write  = dlx.components.register(dlx.stage_id.reg_write, 
+                                                    dlx.control.not_clk, 
+                                                    dlx.control.clr, 
+                                                    dlx.control.not_clk);
+    dlx.stage_ex.mem_read   = dlx.components.register(dlx.stage_id.mem_read, 
+                                                    dlx.control.not_clk, 
+                                                    dlx.control.clr, 
+                                                    dlx.control.not_clk);
+    dlx.stage_ex.mem_write  = dlx.components.register(dlx.stage_id.mem_write, 
+                                                    dlx.control.not_clk, 
+                                                    dlx.control.clr, 
+                                                    dlx.control.not_clk);
+    dlx.stage_ex.branch     = dlx.components.register(dlx.stage_id.branch, 
+                                                      dlx.control.not_clk, 
+                                                      dlx.control.clr, 
+                                                      dlx.control.not_clk);
+
+
+    };
     return dlx;
 
 }(DLX,SRS));

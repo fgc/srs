@@ -12,13 +12,15 @@ var DLX = (function(dlx,srs) {
         var add4 = pc.lift(function(addr) { return addr + 4;}, 1, next_pc);
         
         var instr = dlx.memory.instruction_cache(pc);
+
+
+        //pipeline stage registers
+
         
         dlx.stage_if.pc = pc;
         dlx.stage_if.next_pc = next_pc;
         dlx.stage_if.instr = instr;
 
-
-        //pipeline stage registers
 
         dlx.stage_if.npc = dlx.components.register(next_pc, 
                                                    dlx.control.not_clk, 

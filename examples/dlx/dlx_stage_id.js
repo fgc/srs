@@ -11,7 +11,7 @@ var DLX = (function(dlx,srs) {
         var r2  = ir.lift(function(instr){ return (instr >> 16) & 0x1f ;}).trace("R2");
         var imm = ir.lift(function(instr){ return instr & 0xff ;}).trace("IMM");
         
-        //control logic. test this thoroughly
+        //control logic. TODO test this thoroughly
         var r_format   = op.lift(function(op) {return op == 0;});
         var alu_src    = op.lift(function(op) {return op & 0x08;});
         var mem_to_reg = op.lift(function(op) {return (op & 0x20) && (op & 0x3);});
