@@ -52,11 +52,14 @@
 
     dlx.memory.register_file = function(reg_A, reg_B, reg_W, data_W, W) {
         
-        r.lift(function(W_val) {
-            if (W_val) {
-                register_view[reg_W.get_value()] = data_W.get_value(); 
+        //TODO think: should we lift on every input or miss some writes????
+        r.lift(function(W_data) {
+            console.log("new data arriving to reg write: " + W_data);
+            if (W.get_value()) {
+                console.log ("[REG file]---> writing");
+                register_view[reg_W.get_value()] = W_data; 
             }
-        }, W);
+        }, data_W);
 
         var read_reg = function (reg) {
             if (reg == 0) {

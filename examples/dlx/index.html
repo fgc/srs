@@ -19,6 +19,7 @@
     <script src="dlx_stage_id.js"></script>
     <script src="dlx_stage_ex.js"></script>
     <script src="dlx_stage_mem.js"></script>
+    <script src="dlx_stage_wb.js"></script>
 
 
 
@@ -37,6 +38,8 @@
       console.log("ex up");
       DLX.init_stage_mem();
       console.log("mem up");
+      DLX.init_stage_wb();
+      console.log("wb up");
 
       DLX.stage_if.ir.lift(function (n){return "0x" + n.toString(16);}).as_text("fetchedinstr");
       DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd");

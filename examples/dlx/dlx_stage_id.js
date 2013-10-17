@@ -25,7 +25,11 @@ var DLX = (function(dlx,srs) {
                       
         
 
-        var register_file = dlx.memory.register_file(r1,r2,new srs.Signal(), new srs.Signal(), new srs.Signal());
+        var register_file = dlx.memory.register_file(r1,
+                                                     r2,
+                                                     dlx.control.reg_select_write, 
+                                                     dlx.control.reg_data_write, 
+                                                     dlx.control.reg_enable_write);
 
 
         //pipeline stage registers
