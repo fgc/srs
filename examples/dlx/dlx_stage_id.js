@@ -67,6 +67,7 @@ var DLX = (function(dlx,srs) {
                                                           dlx.control.not_clk, 
                                                           dlx.control.clr, 
                                                           dlx.control.not_clk);
+        dlx.stage_id.reg_dst    = srs.inverter(dlx.stage_id.r_format);
         dlx.stage_id.alu_src    = dlx.components.register(alu_src, 
                                                           dlx.control.not_clk, 
                                                           dlx.control.clr, 

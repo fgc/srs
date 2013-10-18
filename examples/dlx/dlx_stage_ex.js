@@ -43,6 +43,10 @@ var DLX = (function(dlx,srs) {
                                                     dlx.control.not_clk, 
                                                     dlx.control.clr, 
                                                     dlx.control.not_clk);
+    dlx.stage_ex.reg_dst  = dlx.components.register(dlx.stage_id.reg_dst, 
+                                                    dlx.control.not_clk, 
+                                                    dlx.control.clr, 
+                                                    dlx.control.not_clk);
     dlx.stage_ex.mem_read   = dlx.components.register(dlx.stage_id.mem_read, 
                                                     dlx.control.not_clk, 
                                                     dlx.control.clr, 
