@@ -164,7 +164,7 @@ var SRS = (function(srs) {
 
     /*******************************************/
     function make_span(id, context) {
-        var context = context || document.body;
+        var context = document.getElementById(context) || document.body;
         var el = document.createElement("span");
         el.id = id;
         context.appendChild(el);

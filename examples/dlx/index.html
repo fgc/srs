@@ -40,20 +40,56 @@
       console.log("mem up");
       DLX.init_stage_wb();
       console.log("wb up");
+      
+      DLX.stage_if.ir.lift(function (n){
+          return "0x" + n.toString(16);
+      }).as_text("fetchedinstr","ifdiv");
+      DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd","ifdiv");
 
-      DLX.stage_if.ir.lift(function (n){return "0x" + n.toString(16);}).as_text("fetchedinstr");
-      DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd");
+
+      DLX.stage_id.ir.lift(function (n){
+          return "0x" + n.toString(16);
+      }).as_text("fetchedinstrid","iddiv");
+      DLX.stage_id.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdid","iddiv");
+
+
+      DLX.stage_ex.ir.lift(function (n){
+          return "0x" + n.toString(16);
+      }).as_text("fetchedinstrex","exdiv");
+      DLX.stage_ex.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdex","exdiv");
+
+      DLX.stage_mem.ir.lift(function (n){
+          return "0x" + n.toString(16);
+      }).as_text("fetchedinstrmem","memdiv");
+      DLX.stage_mem.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdmem","memdiv");
+
 
       };
+
 
     </script>
     <link rel="stylesheet" href="../../css/srs_graphics.css">
     <style>
-      #fetchedinstrd {
-        font-weight: bold;
+      #ifdiv {
+        background-color: #907;
       }
+      #iddiv {
+        background-color: #970;
+      }
+      #exdiv {
+        background-color: #097;
+      }
+      #memdiv {
+        background-color: #60a;
+      }
+
     </style>
   </head>
   <body>
+    <div id="ifdiv"></div>
+    <div id="iddiv"></div>
+    <div id="exdiv"></div>
+    <div id="memdiv"></div
+    <div id="wbdiv"></div>
   </body>
 </html>

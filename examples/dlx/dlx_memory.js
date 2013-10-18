@@ -30,11 +30,11 @@
 
     dlx.memory.ram_test_data = function() {
         
-        ui32view[0] = 0x20010064;
-        ui32view[1] = 0x20220065;
-        ui32view[2] = 0x20430066;
-        ui32view[3] = 0x24640067;
-
+        ui32view[0] = 0x0;
+        ui32view[1] = 0x00225020;
+        ui32view[2] = 0x0;
+        ui32view[3] = 0x0;
+/*
         for (var i = 4; i < 10; i++) {
             ui32view[i] = 2*i;
         }
@@ -42,12 +42,12 @@
         for (var i = 41; i < 50; i++) {
             ui8view[i] = 2*i;
         }
-        
+ */       
     };
 
 
 
-    var register_buffer = new ArrayBuffer(32);
+    var register_buffer = new ArrayBuffer(32*4);
     var register_view = new Int32Array(register_buffer);
 
     dlx.memory.register_file = function(reg_A, reg_B, reg_W, data_W, W) {
@@ -55,8 +55,9 @@
         //TODO think: should we lift on every input or miss some writes????
         r.lift(function(W_data) {
             console.log("new data arriving to reg write: " + W_data);
+            console.log("W is: " + W.get_value());
             if (W.get_value()) {
-                console.log ("[REG file]---> writing");
+                console.log ("[REG file]---> writing into: R" + reg_W.get_value());
                 register_view[reg_W.get_value()] = W_data; 
             }
         }, data_W);
@@ -73,6 +74,13 @@
             out_b: r.lift(read_reg, reg_B)
         };
 
+    };
+
+    dlx.memory.dump_registers = function() {
+        //no map for typed arrays :(
+        for (var i = 0; i < register_view.length; i++) {
+            console.log("R"+i+": " + register_view[i]);
+        }
     };
 
     dlx.memory.register_test_data = function() {

@@ -6,16 +6,21 @@ var DLX = (function(dlx,srs) {
         dlx.stage_id = {};
         
         var ir  = dlx.stage_if.ir;
-        var op  = ir.lift(function(instr){ return instr >> 26 ;}).trace("OP");
-        var r1  = ir.lift(function(instr){ return (instr >> 21) & 0x1f ;}).trace("R1");
-        var r2  = ir.lift(function(instr){ return (instr >> 16) & 0x1f ;}).trace("R2");
-        var imm = ir.lift(function(instr){ return instr & 0xff ;}).trace("IMM");
+        var op  = ir.lift(function(instr){ return instr >> 26 ;});
+        var r1  = ir.lift(function(instr){ return (instr >> 21) & 0x1f ;});
+        var r2  = ir.lift(function(instr){ return (instr >> 16) & 0x1f ;});
+        var imm = ir.lift(function(instr){ return instr & 0xff ;});
         
-        //control logic. TODO test this thoroughly
+        //control logic. TODO this is mostly wrong
         var r_format   = op.lift(function(op) {return op == 0;});
         var alu_src    = op.lift(function(op) {return op & 0x08;});
         var mem_to_reg = op.lift(function(op) {return (op & 0x20) && (op & 0x3);});
-        var reg_write  = op.lift(function(op) {return !((op & 0x28) || (op>>3 == 0));});
+        //for the moment return true for all R format instructions
+        var reg_write  = ir.lift(function(instr) {
+            var op = instr >>> 26;
+            console.log("CONTROL reg_write for op: " + op);
+            return (op == 0);
+        });
         var mem_read   = mem_to_reg;
         var mem_write  = op.lift(function(op) {return (op & 0x28) && (op & 0x3);});
         var branch     = op.lift(function(op) {return (op >> 3 == 0) && (op & 0x7);});
