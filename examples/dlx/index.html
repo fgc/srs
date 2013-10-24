@@ -42,24 +42,24 @@
       console.log("wb up");
       
       DLX.stage_if.ir.lift(function (n){
-          return "0x" + n.toString(16);
+          return "0x" + n.toString(16) + " ";
       }).as_text("fetchedinstr","ifdiv");
       DLX.stage_if.ir.lift(DLX.util.disassemble).as_text("fetchedinstrd","ifdiv");
 
 
       DLX.stage_id.ir.lift(function (n){
-          return "0x" + n.toString(16);
+          return "0x" + n.toString(16) + " ";
       }).as_text("fetchedinstrid","iddiv");
       DLX.stage_id.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdid","iddiv");
 
 
       DLX.stage_ex.ir.lift(function (n){
-          return "0x" + n.toString(16);
+          return "0x" + n.toString(16) + " ";
       }).as_text("fetchedinstrex","exdiv");
       DLX.stage_ex.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdex","exdiv");
 
       DLX.stage_mem.ir.lift(function (n){
-          return "0x" + n.toString(16);
+          return "0x" + n.toString(16) + " ";
       }).as_text("fetchedinstrmem","memdiv");
       DLX.stage_mem.ir.lift(DLX.util.disassemble).as_text("fetchedinstrdmem","memdiv");
 

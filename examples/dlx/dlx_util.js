@@ -78,6 +78,9 @@ var DLX = (function(dlx,srs) {
         if ((opcode >>> 3) & 1 == 1) {
             return name + " r" + rd + ", " + "r" + rs1 + ", " + imm;
         }
+        if (opcode == 0) {
+            return name + " r" + rs2 + ", r" + rd + ", r" + rs1;
+        }
         return name + " r" + rd + ",r" + rs1 + ", r" + rs2;
     };
 
