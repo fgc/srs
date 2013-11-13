@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="priority_queue.js"></script>
+    <script src="srs_core.js"></script>
+    <script src="srs_signal.js"></script>
+    <script src="srs_graphics.js"></script>
+    <script src="srs_ws.js"></script>
+
+    <script> 
+      window.onload = function() {
+          SRS.flipswitch("wsswitch").ws("ws://localhost:8080").led("wsled");
+      };
+    </script>
+    <link rel="stylesheet" href="css/srs_graphics.css">
+    <style>
+      body { 
+      padding: 100px; 
+      color: #aaa;
+      background-color: #222;
+      font-family: sans serif;
+      text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+  </body>
+</html>
